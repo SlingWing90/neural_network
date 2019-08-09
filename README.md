@@ -106,6 +106,14 @@ Calculates Y-output, error and corrected weights in a neural network.
 	processor.print_result()
 	```
 
+7. Add X-Values to calculate Y-Output
+	```
+	processor.process( x_values )
+
+	Parameter:
+	x_values: array of x-values
+	```
+
 ## Example
 A full Example can be found in "neural_network.py" which solves a XOR-Problem
 
