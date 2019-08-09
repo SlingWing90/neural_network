@@ -61,6 +61,16 @@ class Processor:
 		for r in self.table_output:
 			print(" "+str(r[0])+"    "+str(r[1])+"    "+str(r[2])+"   "+str(round(r[3], 5))+"   "+str(round(r[4], 5))) 
 
+	def process(self, x_input):
+		for v in range(0, len(x_input)):
+			self.network[v].input = x_input[v] 
+			
+		y = 0
+		for v in range(len(x_input), len(self.network)):
+			y = self.network[v].calc_y();
+		
+		return round(y, 0)
+
 	def print_weight(self, children):
 		if not children.prev_neuron is None:
 			for n in children.prev_neuron:
