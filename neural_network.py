@@ -1,7 +1,9 @@
+### EXAMPLE
+
 from classes.neuron import Neuron
 from classes.processor import Processor
 
-# Learning XOR
+# LEARNING XOR
 # -----------
 # X1 | X2 | Y
 # -----------
@@ -11,11 +13,11 @@ from classes.processor import Processor
 # 1  | 1  | 0
 # -----------
 
-neuron_1 = Neuron("1", 1, None, None);
-neuron_2 = Neuron("2", 1, None, None);
-neuron_3 = Neuron("3", None, 0.8, [[0.5, neuron_1], [0.4, neuron_2]])
-neuron_4 = Neuron("4", None, -0.1, [[0.9, neuron_1], [1.0, neuron_2]])
-neuron_5 = Neuron("5", None, 0.3, [[-1.2, neuron_3], [1.1, neuron_4]])
+neuron_1 = Neuron("1", None, None);
+neuron_2 = Neuron("2", None, None);
+neuron_3 = Neuron("3", 0.8, [[0.5, neuron_1], [0.4, neuron_2]])
+neuron_4 = Neuron("4", -0.1, [[0.9, neuron_1], [1.0, neuron_2]])
+neuron_5 = Neuron("5", 0.3, [[-1.2, neuron_3], [1.1, neuron_4]])
 
 neuronal_network = [];
 neuronal_network.append(neuron_1)

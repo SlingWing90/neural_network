@@ -9,8 +9,6 @@ class Processor:
 		self.table_output = []
 
 	def learn(self, print_error = 0):
-		#print("learn")
-#
 		continue_learning = 1
 		learning_threshold = self.learning_threshold
 
@@ -51,6 +49,7 @@ class Processor:
 			if error_sum < learning_threshold:
 				continue_learning = 0
 
+		return self.network
 
 	def print_result(self):	
 

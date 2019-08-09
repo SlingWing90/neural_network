@@ -1,20 +1,18 @@
 import math
 
-############# NEURON ############
-
 class Neuron:
 
 	#error_gradient = 0
 	#weight_correction = []
 
-	def __init__(self, title, input, theta, prev_neuron):
+	def __init__(self, title, theta, prev_neuron):
 		self.title = title
-		self.input = input
 		self.theta = theta
 		self.prev_neuron = prev_neuron
+		self.input = 0
 		self.weight_correction = []
 		self.error_gradient = 0
-
+		
 	#def print_neuron(self):
 	#	print("This neuron: ")
 	#	
@@ -70,15 +68,13 @@ class Neuron:
 	def sigmoid(self, x):
 		return 1 / (1 + math.exp(-x)) 
 
-
-	def walkTree(self, children):
-
-		if not children.prev_neuron is None:
-			for n in children.prev_neuron:
-				print("w"+n[1].title+children.title+": "+str(round(n[0], 5)))
-				self.walkTree(n[1])
-
-		if not children.theta is None:
-			print("Th"+children.title+": "+str(round(children.theta, 5)))
-
-##########################################
+	# DEPRECATED: Use print_weight from Processor
+	#def walkTree(self, children):
+	#
+	#	if not children.prev_neuron is None:
+	#		for n in children.prev_neuron:
+	#			print("w"+n[1].title+children.title+": "+str(round(n[0], 5)))
+	#			self.walkTree(n[1])
+	#
+	#	if not children.theta is None:
+	#		print("Th"+children.title+": "+str(round(children.theta, 5)))
