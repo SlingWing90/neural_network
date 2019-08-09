@@ -1,4 +1,5 @@
-import math
+from classes.neuron import Neuron
+
 #import plotly.graph_objects as go
 #import numpy as numpy
 
@@ -13,91 +14,12 @@ import math
 # -----------
 
 
-class neuron:
 
-	#error_gradient = 0
-	#weight_correction = []
-
-	def __init__(self, title, input, theta, prev_neuron):
-		self.title = title
-		self.input = input
-		self.theta = theta
-		self.prev_neuron = prev_neuron
-		self.weight_correction = []
-		self.error_gradient = 0
-
-	def print_neuron(self):
-		print("This neuron: ")
-		
-		print("Prev neurons: ")
-		print(self.prev_neuron)
-
-	def print_input(self):
-		print(str(self.input))
-
-	def update_weight(self, learning_rate, error):
-		self.error_gradient= self.input*(1-self.input)*error
-		
-		self.update_children_weight(learning_rate, self.error_gradient)
-
-
-	def update_children_weight(self, learning_rate, error_gradient):
-		children_error_gradient = 0
-
-		self.weight_correction = []
-		for n in self.prev_neuron:
-			#print(n[1].title+" "+str(n[1].input))	
-			self.weight_correction.append(learning_rate*n[1].input*error_gradient)
-			
-			children_error_gradient = n[1].input*(1-n[1].input)*error_gradient*n[0]
-			
-			if n[1].prev_neuron is not None:
-				n[1].update_children_weight(learning_rate, children_error_gradient)
-
-		# THETA HERE?
-		theta_correction = learning_rate*(-1)*error_gradient
-
-		# Weight Correction
-		loop_count = 0;
-		for wc in self.weight_correction:
-			self.prev_neuron[loop_count][0] = self.prev_neuron[loop_count][0] + wc
-			loop_count = loop_count + 1; 
-
-		self.theta = self.theta + theta_correction
-
-
-	def calc_y(self):
-		y = 0
-
-		for n in self.prev_neuron:
-			y = y + n[1].input*n[0]
-		
-		y = y - self.theta
-
-		self.input = self.sigmoid(y)
-		
-		return self.input
-
-	def sigmoid(self, x):
-		return 1 / (1 + math.exp(-x)) 
-
-
-	def walkTree(self, children):
-
-		if not children.prev_neuron is None:
-			for n in children.prev_neuron:
-				print("w"+n[1].title+children.title+": "+str(round(n[0], 5)))
-				self.walkTree(n[1])
-
-		if not children.theta is None:
-			print("Th"+children.title+": "+str(round(children.theta, 5)))
-
-
-neuron_1 = neuron("1", 1, None, None);
-neuron_2 = neuron("2", 1, None, None);
-neuron_3 = neuron("3", None, 0.8, [[0.5, neuron_1], [0.4, neuron_2]])
-neuron_4 = neuron("4", None, -0.1, [[0.9, neuron_1], [1.0, neuron_2]])
-neuron_5 = neuron("5", None, 0.3, [[-1.2, neuron_3], [1.1, neuron_4]])
+neuron_1 = Neuron("1", 1, None, None);
+neuron_2 = Neuron("2", 1, None, None);
+neuron_3 = Neuron("3", None, 0.8, [[0.5, neuron_1], [0.4, neuron_2]])
+neuron_4 = Neuron("4", None, -0.1, [[0.9, neuron_1], [1.0, neuron_2]])
+neuron_5 = Neuron("5", None, 0.3, [[-1.2, neuron_3], [1.1, neuron_4]])
 
 X = [[0, 0], [1, 0], [0, 1], [1, 1]]
 Y = [0, 1, 1, 0]
