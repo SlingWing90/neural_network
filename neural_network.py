@@ -33,12 +33,34 @@ Y = [0, 1, 1, 0]
 
 pr = Processor(neuronal_network, X, Y)
 
+print("Weights:")
 pr.print_weight(neuron_5)
+
+print("")
+print("Example: ")
+for n in X:
+	x1 = n[0]
+	x2 = n[1]
+
+	val = pr.process([x1, x2])
+	print(str(x1)+" "+str(x2)+" "+str(val))
+print("")
 
 pr.learn(1)
 
 print("")
+print("Result: ")
 pr.print_result()
 
 print("")
+print("Weights:")
 pr.print_weight(neuron_5)
+
+print("")
+print("Example: ")
+for n in X:
+	x1 = n[0]
+	x2 = n[1]
+
+	val = pr.process([x1, x2])
+	print(str(x1)+" "+str(x2)+" "+str(val))
