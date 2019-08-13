@@ -27,7 +27,9 @@ neuronal_network.append(neuron_4)
 neuronal_network.append(neuron_5)
 
 X = [[0, 0], [1, 0], [0, 1], [1, 1]]
-Y = [0, 1, 1, 0]
+Y = [[0], [1], [1], [0]]
+#Y = [[0, 0], [0, 1], [1, 0], [1, 1]]
+
 #learning_rate = 0.1
 #learning_threshold = 0.001
 
