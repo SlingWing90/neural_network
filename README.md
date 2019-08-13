@@ -71,7 +71,7 @@ Calculates Y-output, error and corrected weights in a neural network.
 	 1
 	 0
 	 Array-Style
-	 Y = [0, 1, 1, 0]
+	 Y = [[0], [1], [1], [0]]
 
 	learning_rate: float - Default: 0.1
 
