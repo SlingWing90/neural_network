@@ -84,7 +84,8 @@ class Processor:
 		
 		#
 		y_val = []
-		for v in range(len(self.network) - len(self.y_table[0]), len(self.network)):
+		#for v in range(len(self.network) - len(self.y_table[0]), len(self.network)):
+		for v in range(len(self.network)-1, len(self.network) - len(self.y_table[0])-1, -1):
 			#print(str(v))
 			y = self.network[v].calc_y();
 			y_val.append(y)
