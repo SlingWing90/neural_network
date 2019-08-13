@@ -20,10 +20,11 @@ class Processor:
 			error_sum = 0
 				
 			for x in range(0, len(self.x_table)):
-				for y_t in range(0, len(self.y_table[x])):
+				#for y_t in range(0, len(self.y_table[x])):
+				for y_t in range(len(self.y_table[x]), 0, -1):
 			
 					row = []
-					y_desired = self.y_table[x][y_t]
+					y_desired = self.y_table[x][y_t-1]
 
 					for v in range(0, len(self.x_table[x])):
 						self.network[v].input = self.x_table[x][v] 
@@ -33,8 +34,12 @@ class Processor:
 
 					y = 0
 					for v in range(len(self.x_table[x]), len(self.network)):
+						#print("V: "+str(v))
 						y = self.network[v].calc_y();
 					
+					# Get last Y of this neuron
+					y = self.network[len(self.network) - y_t].calc_y();
+					#################
 					row.append(y)
 
 					error = y_desired - y
@@ -44,7 +49,8 @@ class Processor:
 					# - y_t
 					#print("Y_T: "+str(y_t))
 					#self.network[len(self.network)-1].update_weight(self.learning_rate, error); original
-					self.network[len(self.network)-(y_t+1)].update_weight(self.learning_rate, error)
+					#print(str(len(self.network)-(y_t)))
+					self.network[len(self.network)-(y_t)].update_weight(self.learning_rate, error)
 
 					self.table_output.append(row)
 			
