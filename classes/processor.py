@@ -18,31 +18,34 @@ class Processor:
 			#row = []
 
 			error_sum = 0
+				
 			for x in range(0, len(self.x_table)):
-				row = []
-				y_desired = self.y_table[x]
+				for y_t in range(0, len(self.y_table[x])):
+			
+					row = []
+					y_desired = self.y_table[x][y_t]
 
-				for v in range(0, len(self.x_table[x])):
-					self.network[v].input = self.x_table[x][v] 
-					row.append(self.x_table[x][v])
-				
-				row.append(y_desired)
+					for v in range(0, len(self.x_table[x])):
+						self.network[v].input = self.x_table[x][v] 
+						row.append(self.x_table[x][v])
+					
+					row.append(y_desired)
 
-				y = 0
-				for v in range(len(self.x_table[x]), len(self.network)):
-					y = self.network[v].calc_y();
-				
-				row.append(y)
+					y = 0
+					for v in range(len(self.x_table[x]), len(self.network)):
+						y = self.network[v].calc_y();
+					
+					row.append(y)
 
-				error = y_desired - y
-				error_sum = error_sum + (error*error)
-				
-				row.append(error)
+					error = y_desired - y
+					error_sum = error_sum + (error*error)
+					
+					row.append(error)
 
-				self.network[len(self.network)-1].update_weight(self.learning_rate, error);
+					self.network[len(self.network)-1].update_weight(self.learning_rate, error);
 
-				self.table_output.append(row)
-
+					self.table_output.append(row)
+			
 			if print_error == 1:
 				print(str(error_sum))
 
