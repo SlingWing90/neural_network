@@ -33,7 +33,7 @@ class Neuron:
 
 		self.weight_correction = []
 		for n in self.prev_neuron:
-			#print(n[1].title+" "+str(n[1].input))	
+			#print(n[1].title+" "+str(self.title))	
 			self.weight_correction.append(learning_rate*n[1].input*error_gradient)
 			
 			children_error_gradient = n[1].input*(1-n[1].input)*error_gradient*n[0]
