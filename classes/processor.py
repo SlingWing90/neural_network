@@ -1,3 +1,6 @@
+import plotly.graph_objects as go
+import networkx as nx
+
 class Processor:
 	def __init__(self, network, x_table, y_table, learning_rate = 0.1, learning_threshold = 0.001):
 		#print("initialize")
@@ -101,3 +104,121 @@ class Processor:
 
 		if not children.theta is None:
 			print("Th"+children.title+": "+str(round(children.theta, 5)))
+			
+	def _get_prev_neuron(self, neur, posX, posY):
+		x = posX - 1
+		y = 0
+		pos_array = []
+		result_array = []
+		for pre_ne in neur.prev_neuron:
+			#print(neur.title +" " + pre_ne[1].title)
+			if pre_ne[1].prev_neuron is not None:
+				#print(neur.title +" " + pre_ne[1].title)
+				#print("X: "+str(x) + " - Y: "+str(y));
+				pos_array.append([x, y, neur.title + pre_ne[1].title])
+				y = y + 1
+				#result_array.append([x, y])
+				pos_array = pos_array + self._get_prev_neuron(pre_ne[1], x, y)
+			else: 
+				#print(neur.title +" " + pre_ne[1].title)
+				#print("X: "+str(x) + " - Y: "+str(y))
+				pos_array.append([x, y, neur.title + pre_ne[1].title])
+				y = y + 1
+				
+		return pos_array
+				
+				
+			
+	def print_graph(self):
+		G = nx.random_geometric_graph(200, 0.125)
+		
+		x_pos = len(self.network) #5 Testwise
+		y_pos = 0
+		nodes = []
+		for x in range(len(self.network) - len(self.y_table[0]), len(self.network)):
+			pre_ne = self.network[x].prev_neuron
+			nodes.append([x_pos, y_pos, self.network[x].title])
+			prev_nodes = self._get_prev_neuron(self.network[x], x_pos, y_pos)
+			nodes = nodes + prev_nodes
+			y_pos = y_pos + 1
+		
+		node_x = []
+		node_y = []
+		for n in nodes:
+			node_x.append(n[0])
+			node_y.append(n[1])
+				
+		edge_x = []
+		edge_y = []
+		x0 = 0
+		y0 = 0
+		x1 = 0
+		y1 = 0
+		
+		print(nodes)
+		for n in nodes:
+			x0 = n[0]
+			y0 = n[1]
+			act_node = n[2]
+			if len(act_node) > 1:
+				act_node = n[2][1]
+			#print(act_node)	
+			for ne in nodes:
+				if len(ne[2]) > 1 and ne[2][0] == act_node:
+					x1 = ne[0]
+					y1 = ne[1]
+					
+					edge_x.append(x0)
+					edge_x.append(x1)
+					edge_x.append(None)
+					edge_y.append(y0)
+					edge_y.append(y1)
+					edge_y.append(None)
+					
+		edge_trace = go.Scatter(
+			x=edge_x, y=edge_y,
+			line=dict(width=0.5, color='#888'),
+			hoverinfo='none',
+			mode='lines')
+
+		node_trace = go.Scatter(
+			x=node_x, y=node_y,
+			mode='markers',
+			#hoverinfo='text',
+			marker=dict(
+				showscale=False,
+				# colorscale options
+				#'Greys' | 'YlGnBu' | 'Greens' | 'YlOrRd' | 'Bluered' | 'RdBu' |
+				#'Reds' | 'Blues' | 'Picnic' | 'Rainbow' | 'Portland' | 'Jet' |
+				#'Hot' | 'Blackbody' | 'Earth' | 'Electric' | 'Viridis' |
+				colorscale='YlGnBu',
+				reversescale=False,
+				color=[],
+				size=10,
+				colorbar=dict(
+					thickness=15,
+					title='Node Connections',
+					xanchor='left',
+					titleside='right'
+				),
+				line_width=2))
+		
+		#node_adjacencies = []
+		node_adjacencies = (0, {1})
+		
+		fig = go.Figure(data=[edge_trace, node_trace],
+             layout=go.Layout(
+                title='',
+                titlefont_size=16,
+                showlegend=False,
+                hovermode='closest',
+                margin=dict(b=20,l=5,r=5,t=40),
+                annotations=[ dict(
+                    #text="Python code: <a href='https://plot.ly/ipython-notebooks/network-graphs/'> https://plot.ly/ipython-notebooks/network-graphs/</a>",
+                    showarrow=False,
+                    xref="paper", yref="paper",
+                    x=0.005, y=-0.002 ) ],
+                xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+                yaxis=dict(showgrid=False, zeroline=False, showticklabels=False))
+                )
+		fig.show()
